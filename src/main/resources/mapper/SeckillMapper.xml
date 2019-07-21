@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.jingxiang.seckill.mapper.SeckillMapper">
+    <resultMap id="baseMap" type="com.jingxiang.goods.mapper.SeckillMapper">
+        <id property="seckillId" column="seckill_id" jdbcType="INTEGER"/>
+        <result property="title" column="title" jdbcType="VARCHAR"/>
+        <result property="image" column="image" jdbcType="VARCHAR"/>
+        <result property="price" column="price" jdbcType="DECIMAL"/>
+        <result property="costPrice" column="cost_price" jdbcType="DECIMAL"/>
+        <result property="createTime" column="create_time" jdbcType="DATETIME"/>
+        <result property="startTime" column="start_time" jdbcType="DATETIME"/>
+        <result property="endTime" column="end_time" jdbcType="DATETIME"/>
+        <result property="stockCount" column="stock_count" jdbcType="INTEGER"/>
+
+    </resultMap>
+    <select id="findAll" resultMap="baseMap">
+        select * from seckill
+    </select>
+    <select id="findById" resultMap="baseMap" parameterType="INTEGER">
+        select * from seckill
+        where seckill_id = #{id,jdbcType="INTEGER"}
+    </select>
+    <update id="disStock" parameterType="INTEGER">
+        update seckill set stockCount=stockCount-1
+        where seckill_id = #{seckillId,jdbcType="INTEGER"}
+        and stockCount &gt; 0
+        and   create_time  &lt;= #{killTime}
+        and end_time &gt;= #{killTime}
+    </update>
+</mapper>

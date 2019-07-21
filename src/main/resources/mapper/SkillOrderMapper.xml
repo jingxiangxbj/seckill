@@ -1,0 +1,16 @@
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.jingxiang.seckill.mapper.SeckillOrderMapper">
+    <select id="findAll" resultType="com.jingxiang.goods.entity.SeckillOrder">
+        select * from seckill_order
+    </select>
+    <insert id="insertSeckillOrder">
+        insert ignore into seckill_order (seckill_id,user_phone,money,create_time) values (#{seckillId},#{userPhone},#{money},now())
+    </insert>
+    <select id="findById" resultType="com.jingxiang.goods.entity.SeckillOrder">
+        select so.*,s.* from seckill_order so left join seckill s on so.seckill_d = s.seckill_d
+        where seckillId = #{seckill_id}
+        and userPhone = #{user_phone}
+    </select>
+</mapper>
